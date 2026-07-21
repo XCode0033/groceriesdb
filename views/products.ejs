@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <style>
+        .hidden {
+            display: none;
+        }
+
+        .success {
+            color:green;
+        }
+    </style>
+</head>
+<body>
+    <form id="addProduct" action="/products" method="POST">
+        <div>
+            <label for="product_name">Name</label>
+            <input type="text" placeholder="Category" name="product_name">
+        </div>
+        <div>
+            <label for="product_category">Category</label>
+            <input type="text" placeholder="Category" name="product_category">
+        </div>
+
+        <button type="submit">Add Product</button>
+    </form>
+    
+    <form id="searchProduct" action="/products" method="GET">
+        <div>
+            <label for="product_name">Name</label>
+            <input type="text" placeholder="Category" name="product_name" value="<%= filters?.product_name || "" %>">
+        </div>
+        <div>
+            <label for="product_category">Category</label>
+            <input type="text" placeholder="Category" name="product_category" value="<%= filters?.product_category || ""%>">
+        </div>
+
+        <button type="submit">Search Product</button>
+    </form>
+    <p id="success" class="hidden">Product Added Successfully!</p>
+    <% products.forEach(product => { %>
+        <p>ID: <%= product.product_id %></p>
+        <p>Name: <%= product.product_name %></p>
+        <p>Category: <%= product.product_category %></p>
+        <p>------</p>
+   <% }); %>
+
+
+   <script>
+    const addProduct = document.getElementById("addProduct");
+    let successMessage = document.getElementById("success")
+    addProduct.addEventListener("submit", async(e) => {
+        e.preventDefault();
+
+        const data = Object.fromEntries(new FormData(addProduct))
+
+        const response = await fetch("/products", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+
+        if(response.ok){
+            
+            window.location.reload()
+          
+        }
+    })
+
+
+
+   </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+import express from "express";
+import { RequestHandler } from "express";
+import { pool } from "../db";
+export const homepage: RequestHandler = async (req, res, next) => {
+  const sql = `
+       SELECT 
+    c.customer_id,
+    c.customer_name,
+    c.customer_email,
+    p.product_id,
+    p.product_name,
+    p.product_category,
+    oi.unit_price,
+    s.store_id,
+    s.store_name
+FROM customers AS c
+JOIN orders AS o
+    ON c.customer_id = o.customer_id
+JOIN order_items AS oi
+    ON o.order_id = oi.order_id
+JOIN products AS p
+    ON p.product_id = oi.product_id
+JOIN stores AS s
+    ON s.store_id = o.store_id
+ORDER BY
+    c.customer_name,
+    p.product_name,
+    s.store_name;
+    `;
+
+  let result = await pool.query(sql);
+  res.render("home", { customers: result.rows });
+};

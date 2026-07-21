@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "groceries",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["dist/app.js"],
+      "port": 3000
+    }
+  ]
+}

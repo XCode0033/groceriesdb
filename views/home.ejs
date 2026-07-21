@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <h1>Customers and Their Products</h1>
+
+        <% customers.forEach(customer => { %>
+            <p>ID: <%= customer.customer_id %></p>
+            <p>Name: <%= customer.customer_name %></p>
+            <p>Email: <%= customer.customer_email %></p>
+            <p><strong>-- product -- </p></strong>
+            <p>Product ID: <%= customer.product_id %></p>
+            <p>Product: <%= customer.product_name %></p>
+            <p>Category: <%= customer.product_category %></p>
+            <p>Price: <%= customer.unit_price %></p>
+            <p><strong>-- store --</strong></p>
+            <p>store id: <%= customer.store_id %></p>
+            <p>store name: <%= customer.store_name %></p>
+
+            <p>---------------</p>
+        <% }); %>
+  
+</body>
+</html>

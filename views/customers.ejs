@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <form id="searchCustomer" action="/customers" method="GET">
+        <label for="customer_name">Name</label>
+        <input type="text" placeholder="Name" name="customer_name" value="<%= filters?.customer_name || "" %>">
+        <label for="customer_email">Email</label>
+        <input type="text" placeholder="Email" name="customer_email" value="<%= filters?.customer_email || ""%>">
+        <button type="submit">Search</button>
+        <a href="/customers">Refresh</a>
+    </form>
+    <% customers.forEach(customer => { %>
+        <p>Id: <%= customer.customer_id %></p>
+        <p>Name: <%= customer.customer_name %></p>
+        <p>Email: <%= customer.customer_email %></p>
+        <p><strong>-----------</strong></p>
+   <% }); %>
+</body>
+</html>

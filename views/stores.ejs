@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Stores</title>
+</head>
+<body>
+    <form id="searchStore" action="/stores" method="GET">
+        <label for="store_name">Name</label>
+        <input type="text" placeholder="Store Name" name="store_name" value="<%= filters?.store_name || "" %>">
+        <label for="store_location">Location</label>
+        <input type="text" placeholder="Store Location" name="store_location" value="<%= filters?.store_location || "" %>">
+        <button type="submit">Search</button>
+        <a href="/stores">Refresh</a>
+
+    </form>
+
+    <% stores.forEach(store => { %>
+        <p>ID: <%= store.store_id %></p>
+        <p><strong>Name: <%= store.store_name %></strong></p>
+        <p>Location: <%= store.store_location %></p>
+        <p><strong>-----------</strong></p>
+   <% }); %>
+</body>
+</html>
