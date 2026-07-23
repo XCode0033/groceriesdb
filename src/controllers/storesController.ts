@@ -3,8 +3,12 @@ import e, { RequestHandler } from "express";
 import { pool } from "../db";
 
 export const allStores: RequestHandler = async (req, res, next) => {
-  const store_name = req.query.store_name as string;
-  const store_location = req.query.store_location as string;
+  const { store_name, store_location, sortBy, sortDir } = req.query as {
+    store_name?: string;
+    store_location?: string;
+    sortBy?: string;
+    sortDir?: string;
+  };
 
   let sql = `
     SELECT * FROM stores

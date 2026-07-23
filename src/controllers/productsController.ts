@@ -3,8 +3,19 @@ import e, { RequestHandler } from "express";
 import { pool } from "../db";
 
 export const allProducts: RequestHandler = async (req, res, next) => {
-  const product_name = req.query.product_name as string;
-  const product_category = req.query.product_category as string;
+  const {
+    product_id,
+    product_name,
+    product_category,
+    sortBy = "product_id",
+    sortDir = "desc",
+  } = req.query as {
+    product_id?: string;
+    product_name?: string;
+    product_category?: string;
+    sortBy?: string;
+    sortDir?: string;
+  };
 
   let sql = `
         SELECT * 
@@ -15,6 +26,11 @@ export const allProducts: RequestHandler = async (req, res, next) => {
   const values: any[] = [];
   let count = 1;
 
+  if (product_id) {
+    sql += ` AND product_id = $${count}`;
+    values.push(String(product_id));
+    count++;
+  }
   if (product_name) {
     sql += ` AND product_name ILIKE $${count}`;
     values.push(`%${product_name}%`);
@@ -25,12 +41,24 @@ export const allProducts: RequestHandler = async (req, res, next) => {
     values.push(`%${product_category}%`);
     count++;
   }
+
+  const allowedSortFields = ["product_id", "product_name", "product_category"];
+  const finalSortBy = allowedSortFields.includes(String(sortBy))
+    ? String(sortBy)
+    : "product_id";
+
+  const finalSortDir = String(sortDir).toLowerCase() === "asc" ? "ASC" : "DESC";
+
+  sql += ` ORDER BY ${finalSortBy} ${finalSortDir}`;
   const result = await pool.query(sql, values);
   res.render("products", {
     products: result.rows,
     filters: {
+      product_id,
       product_name,
       product_category,
+      sortBy: finalSortBy,
+      sortDir: finalSortDir.toLowerCase(),
     },
   });
 };

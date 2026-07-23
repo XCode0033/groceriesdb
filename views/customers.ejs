@@ -6,20 +6,54 @@
     <title>Document</title>
 </head>
 <body>
-    
+    <form id="createCustomer" action="/customers" method="POST">
+        <input type="text" placeholder="Customer Name" name="customer_name">
+        <input type="text" placeholder="Customer Email" name="customer_email">
+        <button type="submit">Create Customer</button>
+    </form>
     <form id="searchCustomer" action="/customers" method="GET">
+        <label for="customer_id">Customer ID</label>
+        <input type="text" placeholder="Customer ID" name="customer_id" value="<%= filters?.customer_id || ""%>">
         <label for="customer_name">Name</label>
-        <input type="text" placeholder="Name" name="customer_name" value="<%= filters?.customer_name || "" %>">
+        <input type="text" placeholder="Name" name="customer_name" value="<%= filters?.customer_name || ""%>">
         <label for="customer_email">Email</label>
         <input type="text" placeholder="Email" name="customer_email" value="<%= filters?.customer_email || ""%>">
         <button type="submit">Search</button>
         <a href="/customers">Refresh</a>
+
+        <select name="sortBy">
+            <option value="customer_id" <%= filters.sortBy === "customer_id" ? "selectId" : ""%>>Customer Id</option>
+            <option value="customer_name" <%= filters.sortBy === "customer_name"? "selectName" : "" %>>Customer Name </option>
+        </select>
+        <button type="submit">Apply Filter</button>
     </form>
+    
     <% customers.forEach(customer => { %>
         <p>Id: <%= customer.customer_id %></p>
         <p>Name: <%= customer.customer_name %></p>
         <p>Email: <%= customer.customer_email %></p>
         <p><strong>-----------</strong></p>
    <% }); %>
+
+   <script>
+    const createCustomer = document.getElementById("createCustomer");
+
+    createCustomer.addEventListener("submit", async(e) => {
+        e.preventDefault();
+
+        const data = Object.fromEntries(new FormData(createCustomer));
+
+        const response = await fetch("/customers", {
+            method: "POST",
+            headers: {
+                "Content-Type" : "application/json"
+            },
+            body: JSON.stringify(data)
+        })
+        if(response.ok) {
+            window.location.reload();
+        }
+    })
+   </script>
 </body>
 </html>

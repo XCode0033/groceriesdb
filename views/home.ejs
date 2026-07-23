@@ -7,7 +7,15 @@
 </head>
 <body>
     <h1>Customers and Their Products</h1>
-
+        <div>
+            <li>
+                <p>Other pages</p>
+                <ul><a href="/customers">Customers</a></ul>
+                <ul><a href="/products">Products</a></ul>
+                <ul><a href="/stores">Stores</a></ul>
+                <ul></ul>
+            </li>
+        </div>
         <% customers.forEach(customer => { %>
             <p>ID: <%= customer.customer_id %></p>
             <p>Name: <%= customer.customer_name %></p>

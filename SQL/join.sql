@@ -1,19 +1,25 @@
+-- SELECT 
+--     c.customer_id,
+--     c.customer_name,
+--     c.customer_email,
+--     p.product_id,
+--     p.product_name,
+--     p.product_category,
+--     oi.unit_price,
+--     s.store_id,
+--     s.store_name
+-- FROM customers AS c
+-- JOIN orders AS o
+--     ON c.customer_id = o.customer_id
+-- JOIN order_items AS oi
+--     ON o.order_id = oi.order_id
+-- JOIN products AS p
+--     ON p.product_id = oi.product_id
+-- JOIN stores AS s
+--     ON s.store_id = o.store_id
+-- ORDER BY
+--     c.customer_name,
+--     p.product_name,
+--     s.store_name;
+
 SELECT 
-    p.product_id,
-    p.product_name,
-    p.product_category,
-    sp.price,
-    s.store_id,
-    s.store_name,
-    c.customer_id,
-    c.customer_name,
-    c.customer_email
-FROM products AS p
-JOIN store_products AS sp
-    ON p.product_id = sp.product_id
-JOIN stores AS s
-    ON s.store_id = sp.store_id
-JOIN orders AS o
-    ON o.store_id = s.store_id
-JOIN customers AS c
-    ON c.customer_id = o.customer_id;
